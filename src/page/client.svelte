@@ -1,6 +1,22 @@
-<script>
+<script lang="ts">
+  //ts untuk typescript
   import { thisName, updateName } from "../config/managementsData";
-  import { FlowerIcon, HomeIcon } from "lucide-svelte";
+  import { HomeIcon } from "lucide-svelte";
+
+  import CeritaCinta from "./client-page/cerita-cinta.svelte";
+  import Home from "./client-page/home.svelte";
+  import Lokasi from "./client-page/lokasi.svelte";
+
+  let nav = $state<number>(1);
+
+  function nextNav() {}
+
+  function toPage(page: number) {
+    if (nav <= 1) {
+      nav = 1;
+    }
+    nav = page; // ubah halaman nya
+  }
 </script>
 
 <h2>Undangan anda</h2>
@@ -9,29 +25,29 @@
     <h3>Hey {$thisName.name} welcome</h3>
   </div>
 
-  <div>
+  <div class="nav">
+    <ol>
+      <li onclick={() => toPage(1)}>Home</li>
+      <li onclick={() => toPage(2)}>Cerita cinta</li>
+
+      <li onclick={() => toPage(4)}>Lokasi</li>
+      <li></li>
+    </ol>
+  </div>
+
+  <div class="menu">
     <!-- di sini saya akan mengirimkan string kosong atau tidak ada yg di cek di App.svelte nantik yg menyatakan bahwa namanya tidak ada -->
     <button onclick={() => updateName("")}><HomeIcon /></button>
   </div>
 </header>
 
-<main>
-  <div class="main-card">
-    <h1>Jamal dan Yanti</h1>
-    <div class="descripsi">
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt esse
-        ab? Quae unde repellat nobis consequuntur! Et nemo quae aut quis minus
-        ipsa impedit suscipit dolorem libero nostrum unde ut laudantium tempore
-        sit excepturi laboriosam quam vel repellendus, odio nihil
-        exercitationem?
-      </p>
-      <div>
-        <FlowerIcon />
-      </div>
-    </div>
-  </div>
-</main>
+{#if nav == 1}
+  <Home />
+{:else if nav == 2}
+  <CeritaCinta />
+{:else if nav == 4}
+  <Lokasi />
+{/if}
 
 <style>
   header {
@@ -53,15 +69,20 @@
     font-family: serif;
   }
 
-  main {
-    border: 1px solid;
-    box-shadow: 2px 2px 3px;
-    background-color: #e63946;
-    box-shadow: 2px 2px 3px #ffffff;
+  header .nav ol {
+    list-style: none;
+    display: flex;
+    gap: 10px;
   }
-  main .main-card {
+  header .nav ol li {
+    border: 1p solid;
+    background-color: #ffffff;
     border: 1px solid;
-    box-shadow: 2px 2px 3px #ffffff;
-    background-color: #f5e9dc;
+    box-shadow: 2px 2px solid;
+    font-size: px;
+    font-family: monospace;
+  }
+  header .nav ol li:hover {
+    background-color: linear-gradient(45deg, #ffffff, #333333);
   }
 </style>
